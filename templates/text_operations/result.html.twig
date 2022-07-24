@@ -1,0 +1,20 @@
+{% extends "base/page.html.twig" %}
+
+{% block content %}
+    <h3>Result:</h3>
+
+    <div><strong>Word:</strong> {{ text }}</div>
+    <div><strong>Number of characters:</strong> {{ characters_count }}</div>
+    <div><strong>Number of words:</strong> {{ words_count }}</div>
+    <div><strong>Number of sentences:</strong> {{ sentences_count }}</div>
+    <div><strong>Frequency of characters:</strong> {{ characters_frequency }}</div>
+    <div><strong>Average word length:</strong> {{ avg_word_length }}</div>
+    <div><strong>Top 10 longest words:</strong> {{ longest_words }}</div>
+    <div><strong>Top 10 shortest words:</strong> {{ shortest_words }}</div>
+    <div><strong>Top 10 longest sentences:</strong> {{ longest_sentences }}</div>
+    <div><strong>Top 10 shortest sentences:</strong> {{ shortest_sentences }}</div>
+    <div><strong>The reversed text:</strong> {{ reversed_text }}</div>
+    <div><strong>The reversed text but the character order in words kept intact:</strong> {{ reversed_words }}</div>
+    <div><strong>The time it took to process the text in ms:</strong> {{ processing_time }}</div>
+    <div><strong>Date and time when the report was generated:</strong> {{ "now"|date("F jS \\a\\t g:ia") }}</div>
+{% endblock %}

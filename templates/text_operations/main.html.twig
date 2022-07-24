@@ -1,0 +1,11 @@
+{% extends "base/page.html.twig" %}
+
+{% block content %}
+    <h3>Type word to analyze:</h3>
+
+    <form method="POST" action="">
+        <textarea rows="10" style="width: 100%" name="text" placeholder="Type word..." required=""></textarea>
+
+        <button>Submit</button>
+    </form>
+{% endblock %}
