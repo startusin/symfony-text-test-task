@@ -1,0 +1,9 @@
+{% extends "base/page.html.twig" %}
+
+{% block content %}
+    <h1>Create new Product</h1>
+
+    {{ include('products/_form.html.twig') }}
+
+    <a href="{{ path('app_product_index') }}">back to list</a>
+{% endblock %}

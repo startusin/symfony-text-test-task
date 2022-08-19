@@ -1,0 +1,43 @@
+{% extends "base/page.html.twig" %}
+
+{% block content %}
+    <h1>Product index</h1>
+
+    <a class="btn btn-primary" href="{{ path('app_product_new') }}" role="button">Create new</a>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+        <input type="submit"/>
+    {{ form_end(form) }}
+
+    <table class="table">
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'Id', 'p.id') }}</th>
+            <th{% if pagination.isSorted('p.Name') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Name', 'p.name') }}
+            </th>
+            <th{% if pagination.isSorted('p.Price') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Price', 'p.price') }}
+            </th>
+            <th>Actions</th>
+        </tr>
+
+        {% for product in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+                <td>
+                    <a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
+                    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <nav>
+        <div class="pagination">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </nav>
+{% endblock %}
