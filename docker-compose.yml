@@ -1,6 +1,12 @@
 version: "3.4"
 
 services:
+  redis-server:
+    image: "redis:alpine"
+    command: redis-server
+    hostname: redis
+    ports:
+      - "6379:6379"
   database:
     container_name: database
     image: mysql:8.0
@@ -10,6 +16,7 @@ services:
       MYSQL_DATABASE: symfony_docker
       MYSQL_USER: symfony
       MYSQL_PASSWORD: symfony
+    hostname: db
     ports:
       - '4306:3306'
     volumes:
@@ -38,6 +45,7 @@ services:
       MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
     depends_on:
+      - redis-server
       - database
 
   caddy:
@@ -46,6 +54,7 @@ services:
       target: symfony_caddy
     depends_on:
       - php
+      - redis-server
       - database
     environment:
       SERVER_NAME: ${SERVER_NAME:-localhost, caddy:80}
