@@ -17,6 +17,7 @@ RUN apk add --no-cache \
 		file \
 		gettext \
 		git \
+		redis \
 	;
 
 ARG APCU_VERSION=5.1.21
@@ -35,14 +36,17 @@ RUN set -eux; \
 		zip \
     	pdo \
     	pdo_mysql \
+    	pdo_mysql \
 	; \
 	pecl install \
 		apcu-${APCU_VERSION} \
+		redis \
 	; \
 	pecl clear-cache; \
 	docker-php-ext-enable \
 		apcu \
 		opcache \
+		redis \
 	; \
 	\
 	runDeps="$( \
