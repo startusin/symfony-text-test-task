@@ -13,19 +13,7 @@ jobs:
               uses: actions/checkout@v2
             - name: Pull images
               run: docker-compose pull
-            - name: Start services
-              run: docker-compose up --build -d
-            - name: Wait for services
-              run: |
-                  while status="$(docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" "$(docker-compose ps -q php)")"; do
-                    case $status in
-                      starting) sleep 1;;
-                      healthy) exit 0;;
-                      unhealthy) exit 1;;
-                    esac
-                  done
-                  exit 1
-            - name: Check HTTP reachability
-              run: curl http://localhost
-            - name: Check HTTPS reachability
-              run: curl -k https://localhost
+            - name: Docker build
+              run: docker-compose build --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} 
+            - name: Docker up
+              run: docker-compose up -d
