@@ -2,6 +2,7 @@
 
 namespace App\Request;
 
+use App\Exception\ValidationException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -30,7 +31,7 @@ abstract class BaseRequest
         $errors = $this->validator->validate($this);
 
         if ($errors->count() > 0) {
-            throw new \Exception('Validation error.');
+            throw new ValidationException('Validation error.');
         }
 
         return $errors;
