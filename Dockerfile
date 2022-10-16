@@ -80,6 +80,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
+ENV KERNEL_CLASS="App\Kernel"
 
 WORKDIR /srv/app
 
@@ -95,8 +96,15 @@ ENV STABILITY ${STABILITY}
 ARG SYMFONY_VERSION=""
 ENV SYMFONY_VERSION ${SYMFONY_VERSION}
 
+# Redis
+ENV REDIS_HOST redis
+ENV REDIS_PORT 6379
+
+# DB
+ARG DATABASE_URL
+
 # Download the Symfony skeleton and leverage Docker cache layers
-RUN composer create-project "${SKELETON} ${SYMFONY_VERSION}" . --stability=$STABILITY --prefer-dist --no-dev --no-progress --no-interaction; \
+RUN composer create-project "${SKELETON} ${SYMFONY_VERSION}" . --stability=$STABILITY --prefer-dist; \
 	composer clear-cache
 
 ###> recipes ###
@@ -110,13 +118,15 @@ RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
 
 COPY . .
 
-RUN set -eux; \
-	mkdir -p var/cache var/log; \
-	composer install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
-	composer dump-autoload --classmap-authoritative --no-dev; \
-	composer symfony:dump-env prod; \
-	composer run-script --no-dev post-install-cmd; \
-	chmod +x bin/console; sync
+RUN mkdir -p var/cache var/log
+RUN composer install
+RUN composer dump-autoload --classmap-authoritative
+RUN composer symfony:dump-env prod
+RUN composer run-script post-install-cmd
+RUN chmod +x bin/console
+RUN chmod +x bin/phpunit
+RUN php bin/phpunit
+
 VOLUME /srv/app/var
 
 ENTRYPOINT ["docker-entrypoint"]
