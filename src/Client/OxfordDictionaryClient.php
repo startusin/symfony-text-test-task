@@ -21,7 +21,8 @@ class OxfordDictionaryClient extends GuzzleClient
         parent::__construct($config);
     }
 
-    public function request(string $method, $uri = '', array $options = []): ResponseInterface {
+    public function request(string $method, $uri = '', array $options = []): ResponseInterface
+    {
         $request = parent::request($method, $this->env['api_url'] . $uri, $options);
 
         $this->log('Logging OxfordDictionaryClient ...', [
@@ -36,7 +37,8 @@ class OxfordDictionaryClient extends GuzzleClient
         return $request;
     }
 
-    protected function log(string $text, array $metaData): void {
+    protected function log(string $text, array $metaData): void
+    {
         if ($this->env['api_logging']) {
             $this->logger->info($text, $metaData);
         }

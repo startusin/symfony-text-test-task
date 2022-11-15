@@ -26,8 +26,10 @@ class OxfordDictionaryService
         $this->env = $env;
     }
 
-    public function getWordDefinitions(string $word): array {
-        return $this->cache->get('def_' . $word,
+    public function getWordDefinitions(string $word): array
+    {
+        return $this->cache->get(
+            'def_' . $word,
             function (ItemInterface $item) use ($word) {
                 $item->expiresAfter(3600);
 
@@ -46,6 +48,7 @@ class OxfordDictionaryService
                 } catch (GuzzleException) {
                     return [];
                 }
-            });
+            }
+        );
     }
 }

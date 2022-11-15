@@ -41,16 +41,16 @@ class TextOperationsService
         $countLetters = count($arrLetters);
         $letters = [];
 
-        foreach($arrLetters as $letter){
-            if (isset($letters[$letter])){
+        foreach ($arrLetters as $letter) {
+            if (isset($letters[$letter])) {
                 $letters[$letter] += 1;
             } else {
                 $letters[$letter] = 1;
             }
         }
 
-        foreach ($letters as $letter => $total){
-            $result .= $letter.":".$total.":".round(($total/$countLetters*100),2)."% \n";
+        foreach ($letters as $letter => $total) {
+            $result .= $letter.":".$total.":".round(($total/$countLetters*100), 2)."% \n";
         }
 
         return $result;
@@ -60,7 +60,7 @@ class TextOperationsService
     {
         $wordLength = 0;
         $wordCount = 0;
-        $totalWords = preg_split('/\s+/', $this->getText(),-1,PREG_SPLIT_NO_EMPTY);
+        $totalWords = preg_split('/\s+/', $this->getText(), -1, PREG_SPLIT_NO_EMPTY);
 
         foreach ($totalWords as $word) {
             $wordCount++;
@@ -74,7 +74,7 @@ class TextOperationsService
     {
         $arr = explode(" ", $this->getText());
 
-        usort($arr, function($a, $b){
+        usort($arr, function ($a, $b) {
             return strlen($b) - strlen($a);
         });
 
@@ -85,7 +85,7 @@ class TextOperationsService
     {
         $arr = explode(" ", $this->getText());
 
-        usort($arr, function($a, $b){
+        usort($arr, function ($a, $b) {
             return strlen($a) - strlen($b);
         });
 
@@ -96,7 +96,7 @@ class TextOperationsService
     {
         $arr = explode('.', $this->getText());
 
-        usort($arr, function($a, $b){
+        usort($arr, function ($a, $b) {
             return strlen($b) - strlen($a);
         });
 
@@ -107,7 +107,7 @@ class TextOperationsService
     {
         $arr = explode('.', $this->getText());
 
-        usort($arr, function($a, $b){
+        usort($arr, function ($a, $b) {
             return strlen($a) - strlen($b);
         });
 
