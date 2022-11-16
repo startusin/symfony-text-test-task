@@ -4,7 +4,8 @@ namespace App\Service;
 class SecondKataService
 {
     /* @var string[] $sentences */
-    public function analyze(array $sentences){
+    public function analyze(array $sentences): string
+    {
         $good = $bad = 0;
 
         foreach ($sentences as $sentence) {
