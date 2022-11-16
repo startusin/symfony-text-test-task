@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Model\Node;
 use App\Service\FirstKataService;
+use App\Service\SecondKataService;
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,4 +27,18 @@ class KatasController extends AbstractController
             'count' => $service->size($node),
         ]);
     }
+
+    #[Route(path: '/second', name: 'second', methods: ['POST'])]
+    public function second(SecondKataService $service): Response
+    {
+        return $this->json([
+            'result' => $service->analyze([
+                'good and not bad',
+                'bad and not bad',
+                'bad and not good',
+            ]),
+        ]);
+    }
+
+    
 }
