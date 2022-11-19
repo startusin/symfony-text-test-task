@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Decorators\UppercaseWritePersonDecorator;
 use App\Entity\Person;
 use App\Repository\DbPersonRepository;
 use App\Repository\FilePersonRepository;
@@ -22,6 +23,9 @@ class UsersService
         $person->setName($data->name);
         $person->setSurname($data->surname);
         $person->setPhone($data->phone);
+
+        $decorator = new UppercaseWritePersonDecorator($person);
+        $person->setName($decorator->getName());
 
         $repository->savePerson($person);
     }

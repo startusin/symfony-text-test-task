@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Decorators\LowerCaseReadPersonDecorator;
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -34,6 +35,11 @@ class DbPersonRepository extends ServiceEntityRepository implements PersonReposi
                 ->setParameter(':name', '%' . $name . '%');
         }
 
-        return $query->getQuery()->getResult();
+        $person = $query->getQuery()->getResult();
+
+        $decorator = new LowerCaseReadPersonDecorator($person);
+        $person->setName($decorator->getName());
+
+        return $person;
     }
 }
