@@ -1,6 +1,8 @@
 <?php
 namespace App\Service;
 
+use App\Strategy\Context;
+use App\Strategy\OrderName;
 use App\Strategy\OrderPhone;
 use App\Decorators\UppercaseWritePersonDecorator;
 use App\Entity\Person;
@@ -33,9 +35,12 @@ class UsersService
     public function findAllUsers(PersonRepositoryInterface $repository): array
     {
         $data = $repository->readPeople();
-        $strategy = new OrderPhone();
 
-        return $strategy->orderItems($data);
+        $strategy = new OrderPhone();
+        $context = new Context($strategy);
+        $context->setData($data);
+
+        return $context->doOrdering();
     }
 
     public function findUser(FindUserRequest $data, PersonRepositoryInterface $repository): ?Person
