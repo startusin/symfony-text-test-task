@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Components\PersonNameConverterComponent;
 use App\Decorators\LowerCaseReadPersonDecorator;
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -37,8 +38,9 @@ class DbPersonRepository extends ServiceEntityRepository implements PersonReposi
 
         $person = $query->getQuery()->getResult();
 
-        $decorator = new LowerCaseReadPersonDecorator($person);
-        $person->setName($decorator->getName());
+        $nameConverterComponent = new PersonNameConverterComponent($person);
+        $lowercaseDecorator = new LowerCaseReadPersonDecorator($nameConverterComponent);
+        $person->setName($lowercaseDecorator->doAction());
 
         return $person;
     }

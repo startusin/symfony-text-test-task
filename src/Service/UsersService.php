@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Components\PersonNameConverterComponent;
 use App\Strategy\Context;
 use App\Strategy\OrderName;
 use App\Strategy\OrderPhone;
@@ -26,8 +27,10 @@ class UsersService
         $person->setSurname($data->surname);
         $person->setPhone($data->phone);
 
-        $decorator = new UppercaseWritePersonDecorator($person);
-        $person->setName($decorator->getName());
+        $nameConverterComponent = new PersonNameConverterComponent($person);
+        $uppercaseDecorator = new UppercaseWritePersonDecorator($nameConverterComponent);
+
+        $person->setName($uppercaseDecorator->doAction());
 
         $repository->savePerson($person);
     }

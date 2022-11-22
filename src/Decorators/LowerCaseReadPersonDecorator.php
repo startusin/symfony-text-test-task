@@ -2,15 +2,10 @@
 
 namespace App\Decorators;
 
-use App\Entity\Person;
-
-class LowerCaseReadPersonDecorator
+class LowerCaseReadPersonDecorator extends MainDecorator
 {
-    public function __construct(private Person $user)
-    { }
-
-    public function getName(): string
+    public function doAction(): string
     {
-        return strtolower($this->user->getName());
+        return strtolower(parent::doAction());
     }
 }

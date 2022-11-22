@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Components\PersonNameConverterComponent;
 use App\Decorators\LowerCaseReadPersonDecorator;
 use App\Entity\Person;
 
@@ -29,8 +30,9 @@ class FilePersonRepository implements PersonRepositoryInterface
             $person->setSurname($exploded[1]);
             $person->setPhone($exploded[2]);
 
-            $decorator = new LowerCaseReadPersonDecorator($person);
-            $person->setName($decorator->getName());
+            $nameConverterComponent = new PersonNameConverterComponent($person);
+            $lowercaseDecorator = new LowerCaseReadPersonDecorator($nameConverterComponent);
+            $person->setName($lowercaseDecorator->doAction());
 
             $collected[] = $person;
         }

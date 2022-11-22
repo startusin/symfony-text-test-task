@@ -2,15 +2,10 @@
 
 namespace App\Decorators;
 
-use App\Entity\Person;
-
-class UppercaseWritePersonDecorator
+class UppercaseWritePersonDecorator extends MainDecorator
 {
-    public function __construct(private Person $user)
-    { }
-
-    public function getName(): string
+    public function doAction(): string
     {
-        return strtoupper($this->user->getName());
+        return strtoupper(parent::doAction());
     }
 }
